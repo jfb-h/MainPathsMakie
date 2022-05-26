@@ -52,9 +52,6 @@ function Makie.plot!(plt::Kamadakawai)
 end
 
 
-# and then
-# lines(datenumbers, values, axis = (; xticks = DateTicks()))
-
 # function Makie.show_data(inspector::DataInspector, plot::MainPathPlot, idx, ::Scatter)
 #     a = inspector.plot.attributes
 #     scene = parent_scene(plot)
