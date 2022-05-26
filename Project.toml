@@ -18,6 +18,7 @@ PatentsLens = "f4645b53-4539-42ef-9ea4-c70e89c10300"
 RCall = "6f49c342-dc21-5d91-9882-a32aef131414"
 
 [compat]
+Colors = "0.12"
 julia = "1"
 
 [extras]
