@@ -13,6 +13,7 @@ Patents = "d01f8802-a735-4783-851a-d2cff8aa012a"
 RCall = "6f49c342-dc21-5d91-9882-a32aef131414"
 
 [compat]
+RCall = "0.13"
 GraphMakie = "0.3"
 Makie = "0.17"
 Graphs = "1"
