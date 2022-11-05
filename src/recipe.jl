@@ -1,7 +1,7 @@
 export sugiyama, kamadakawai
 
 @recipe(Sugiyama, mainpath, families) do scene
-    Theme(edgecolor=:grey80, colormap=:viridis)
+    Theme(edgecolor=:grey80, nodecolor=(:grey30, .9), colormap=:viridis)
 end
 
 function Makie.plot!(plt::Sugiyama)
@@ -11,7 +11,7 @@ function Makie.plot!(plt::Sugiyama)
     g = mainpath[].mainpath
     y = map(Patents.earliest_filing, families[])
 
-    nodecol = fill(:grey30, nv(g))#; nodecol[mainpath[].start] .= :red
+    nodecol = plt[:nodecolor] #; nodecol[mainpath[].start] .= :red
     nodesize = 8 .+ 2 * log.(1 .+ Patents.citedby_count.(families[]))
     marker = fill(:circle, nv(g)); marker[mainpath[].start] .= :cross
     edgecol = plt[:edgecolor]
@@ -21,12 +21,13 @@ function Makie.plot!(plt::Sugiyama)
         node_color=nodecol, 
         edge_color=edgecol, 
         node_size=nodesize,
-        node_marker=marker
+        node_marker=marker,
+        node_attr=(strokewidth=1, strokecolor=:white)
     )
 end
 
 @recipe(Kamadakawai, mainpath, families) do scene
-    Theme(edgecolor=:grey80, colormap=:viridis)
+    Theme(edgecolor=:grey80, colormap=:viridis, nodecolor=nothing)
 end
 
 function Makie.plot!(plt::Kamadakawai)
@@ -35,19 +36,25 @@ function Makie.plot!(plt::Kamadakawai)
 
     g = mainpath[].mainpath
     y = map(Dates.year ∘ Patents.earliest_filing, families[])
+
+    nodecol = if isnothing(plt[:nodecolor])
+        y
+    else
+        plt[:nodecolor]
+    end
  
     marker = fill(:circle, nv(g)); marker[mainpath[].start] .= :cross
     edgecol = plt[:edgecolor]
    
-    nodesize = 7 .+ 2 * log.(1 .+ Patents.citedby_count.(families[]))
+    nodesize = 5 .+ 2 * log.(1 .+ Patents.citedby_count.(families[]))
 
     graphplot!(plt, g, 
         layout=igraph_layout_kamadakawai,
-        node_color=y, 
+        node_color=nodecol, 
         edge_color=edgecol, 
         node_size=nodesize,
         node_marker=marker,
-        node_attr=(;colormap=plt[:colormap])
+        node_attr=(;colormap=plt[:colormap], strokewidth=.5, strokecolor=:white)
     )
 end
 
