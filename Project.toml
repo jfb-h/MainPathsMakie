@@ -13,9 +13,10 @@ Patents = "d01f8802-a735-4783-851a-d2cff8aa012a"
 RCall = "6f49c342-dc21-5d91-9882-a32aef131414"
 
 [compat]
-GraphMakie = "0.3"
-Makie = "0.17"
+GraphMakie = "0.3, 0.4"
 Graphs = "1"
+Makie = "0.17"
+RCall = "0.13"
 julia = "1"
 
 [extras]
