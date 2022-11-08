@@ -9,14 +9,12 @@ GraphMakie = "1ecd5474-83a3-4783-bb4f-06765db800d2"
 Graphs = "86223c79-3864-5bf0-83f7-82e725a168b6"
 MainPaths = "f429ff72-55f4-4340-8292-212120acb409"
 Makie = "ee78f7c6-11fb-53f2-987a-cfe4a2b5a57a"
-Patents = "d01f8802-a735-4783-851a-d2cff8aa012a"
+PatentsBase = "b32246e4-6301-4a4b-8d75-0b3972dc1401"
+PatentsLens = "f4645b53-4539-42ef-9ea4-c70e89c10300"
 RCall = "6f49c342-dc21-5d91-9882-a32aef131414"
 
 [compat]
-GraphMakie = "0.3, 0.4"
 Graphs = "1"
-Makie = "0.17"
-RCall = "0.13"
 julia = "1"
 
 [extras]

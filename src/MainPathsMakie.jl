@@ -4,7 +4,8 @@ using MainPaths
 using Graphs
 using Makie
 using GraphMakie
-using Patents
+using PatentsBase
+using PatentsLens
 using RCall
 using Dates
 

@@ -1,7 +1,7 @@
 export sugiyama, kamadakawai
 
 @recipe(Sugiyama, mainpath, families) do scene
-    Theme(edgecolor=:grey80, nodecolor=(:grey30, .9), colormap=:viridis)
+    Theme(edgecolor=:grey80, colormap=:viridis, nodecolor=(:grey30, .9), strokecolor=:grey20)
 end
 
 function Makie.plot!(plt::Sugiyama)
@@ -9,12 +9,14 @@ function Makie.plot!(plt::Sugiyama)
     families = plt[:families]
 
     g = mainpath[].mainpath
-    y = map(Patents.earliest_filing, families[])
+    y = map(PatentsLens.earliest_date_published, families[])
 
-    nodecol = plt[:nodecolor] #; nodecol[mainpath[].start] .= :red
-    nodesize = 8 .+ 2 * log.(1 .+ Patents.citedby_count.(families[]))
+    nodesize = 8 .+ 2 * log.(1 .+ PatentsLens.count_forwardcitations.(families[]))
     marker = fill(:circle, nv(g)); marker[mainpath[].start] .= :cross
+    
+    nodecol = plt[:nodecolor] #; nodecol[mainpath[].start] .= :red
     edgecol = plt[:edgecolor]
+    strokecol = plt[:strokecolor]
     
     graphplot!(plt, g, 
         layout=x->igraph_layout_sugiyama(x, y),
@@ -22,12 +24,12 @@ function Makie.plot!(plt::Sugiyama)
         edge_color=edgecol, 
         node_size=nodesize,
         node_marker=marker,
-        node_attr=(strokewidth=1, strokecolor=:white)
+        node_attr=(strokewidth=1, strokecolor=strokecol)
     )
 end
 
 @recipe(Kamadakawai, mainpath, families) do scene
-    Theme(edgecolor=:grey80, colormap=:viridis, nodecolor=nothing)
+    Theme(edgecolor=:grey80, colormap=:viridis, nodecolor=(:grey30, .9), strokecolor=:grey20)
 end
 
 function Makie.plot!(plt::Kamadakawai)
@@ -35,7 +37,7 @@ function Makie.plot!(plt::Kamadakawai)
     families = plt[:families]
 
     g = mainpath[].mainpath
-    y = map(Dates.year ∘ Patents.earliest_filing, families[])
+    y = map(Dates.year ∘ PatentsLens.earliest_date_published, families[])
 
     nodecol = if isnothing(plt[:nodecolor])
         y
@@ -45,8 +47,10 @@ function Makie.plot!(plt::Kamadakawai)
  
     marker = fill(:circle, nv(g)); marker[mainpath[].start] .= :cross
     edgecol = plt[:edgecolor]
+    strokecol = plt[:strokecolor]
+    
    
-    nodesize = 5 .+ 2 * log.(1 .+ Patents.citedby_count.(families[]))
+    nodesize = 5 .+ 2 * log.(1 .+ PatentsLens.count_forwardcitations.(families[]))
 
     graphplot!(plt, g, 
         layout=igraph_layout_kamadakawai,
@@ -54,7 +58,7 @@ function Makie.plot!(plt::Kamadakawai)
         edge_color=edgecol, 
         node_size=nodesize,
         node_marker=marker,
-        node_attr=(;colormap=plt[:colormap], strokewidth=.5, strokecolor=:white)
+        node_attr=(;colormap=plt[:colormap], strokewidth=.5, strokecolor=strokecol)
     )
 end
 
